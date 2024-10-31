@@ -1,11 +1,10 @@
-import React, {ChangeEvent, useState, useEffect, FormEvent } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {ChangeEvent, useState, useEffect, FormEvent } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const Main = ():JSX.Element => {
     const [submitStatus, updateSubmitStatus] = useState(false);
     const [binaryText, updateBinaryText] = useState("");
     const [dec, updateDec] = useState(0);
-    const queryClient = useQueryClient();
 
     const info = useQuery({
         queryKey: ["binary", binaryText],
