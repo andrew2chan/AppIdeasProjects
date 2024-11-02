@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+}
+
+.top-left {
+  grid-area: top-left-border;
+  place-self: center;
+}
+
+.top-right {
+  grid-area: top-right-border;
+}
+
+.bottom-left {
+  grid-area: bottom-left-border;
+}
+
+.bottom-right {
+  grid-area: bottom-right-border;
+}
+
+.corners {
+  place-self: center;
+}
+
+.center {
+  grid-area: box;
+  border: 1px dashed black;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "top-left-border . . top-right-border"
+    ". box box ."
+    ". box box ."
+    "bottom-left-border . . bottom-right-border";
+}
