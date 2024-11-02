@@ -27,6 +27,21 @@ body {
   place-self: center;
 }
 
+button {
+  padding: 0.5em 5em;
+  border: 0;
+  background: linear-gradient(90deg, #7bb4f5, red);
+  color: white;
+  font-size: large;
+  font-weight: 700;
+  box-shadow: 0 0 1em 0;
+}
+
+button:active {
+  color: black;
+  box-shadow: black inset 0 0 0 2px;
+}
+
 .center {
   grid-area: box;
   border: 1px dashed black;
