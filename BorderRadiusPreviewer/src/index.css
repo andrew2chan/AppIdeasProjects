@@ -4,7 +4,6 @@ body {
 
 .top-left {
   grid-area: top-left-border;
-  place-self: center;
 }
 
 .top-right {
@@ -23,9 +22,16 @@ body {
   place-self: center;
 }
 
+.copy {
+  grid-area: copy-button;
+  place-self: center;
+}
+
 .center {
   grid-area: box;
   border: 1px dashed black;
+  background: linear-gradient(45deg, red, orange);
+  transition: border-radius 1s;
 }
 
 .container {
@@ -35,7 +41,7 @@ body {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
   grid-template-areas: 
-    "top-left-border . . top-right-border"
+    "top-left-border copy-button copy-button top-right-border"
     ". box box ."
     ". box box ."
     "bottom-left-border . . bottom-right-border";
