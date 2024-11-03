@@ -7,7 +7,7 @@ const Main = ():JSX.Element => {
     const [dec, updateDec] = useState(0);
 
     const info = useQuery({
-        queryKey: ["binary", binaryText],
+        queryKey: ["binary"],
         queryFn: async () => {
             let response = await fetch("http://localhost:8080/convert/" + binaryText)
             return response.json();
