@@ -1,0 +1,12 @@
+.buttons {
+    border: 0;
+    border-radius: 5px;
+}
+
+.buttons:hover {
+    background-color: rgb(30, 30, 30) !important;
+}
+
+.buttons:active {
+    box-shadow: 0 0 5px 0 inset;
+}
