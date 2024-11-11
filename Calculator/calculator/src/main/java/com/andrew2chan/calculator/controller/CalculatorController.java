@@ -43,9 +43,11 @@ public class CalculatorController {
                 return new ResponseEntity<>("Invalid operator", HttpStatus.BAD_REQUEST);
         }
 
+        if((calculatedValue.doubleValue() / 10000000.0) > 1) return new ResponseEntity<>("ERR", HttpStatus.BAD_REQUEST);
+
         String stringifiedDouble = new DecimalFormat("#.###").format(calculatedValue.doubleValue());
 
-        if(stringifiedDouble.length() > 8) return new ResponseEntity<>("ERR", HttpStatus.BAD_REQUEST);
+        //if(stringifiedDouble.length() > 8) return new ResponseEntity<>("ERR", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(stringifiedDouble, HttpStatus.OK);
     }
 }
