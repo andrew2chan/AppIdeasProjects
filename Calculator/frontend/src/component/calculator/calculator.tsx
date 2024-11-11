@@ -1,10 +1,12 @@
-import { useState, useReducer, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import CalculatorKeys from "./calculator-keys/calculator-keys";
 import './calculator.css';
 import { reducerAction, reducerState, reducerType } from "../../reducer/calcReducer";
 
 const reducer = (state: reducerState, action: reducerAction): reducerState => {
     const { type, payload } = action;
+
+    if(state.firstNum === "ERR" && (type !== reducerType.CLEARALL)) return state;
 
     switch(type) {
         case reducerType.ADD:
@@ -22,7 +24,7 @@ const reducer = (state: reducerState, action: reducerAction): reducerState => {
                 { ...state, secondNum: state.secondNum + payload }
             )
         case reducerType.EQUALS:
-            return { ...state, firstNum: String(parseFloat(state.firstNum) + parseFloat(state.secondNum))}
+            return { ...state, firstNum: payload || "", secondNum: '' }
         case reducerType.DOT:
             return state.operator === "" ? (
                 { ...state, firstNum: state.firstNum + payload }
@@ -53,6 +55,49 @@ const Calculator = ():JSX.Element => {
         console.log(state);
     }, [state])
 
+    const handleEquals = async () => {
+        if(state.firstNum === "" && state.secondNum === "" && state.operator === "") return;
+        if(state.firstNum !== "" && state.secondNum === "" && state.operator === "") return;
+        if(state.firstNum !== "" && state.secondNum === "" && state.operator !== "") { // do the operator on first num
+            if(state.firstNum === "ERR") {
+                return;
+            }
+
+            let response = await fetch("http://localhost:8080/calculate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstNum: state.firstNum,
+                    secondNum: state.firstNum,
+                    operator: state.operator
+                })
+            })
+
+            let data = await response.text();
+
+            dispatch({ type: reducerType.EQUALS, payload: data })
+        }
+        if(state.firstNum !== "" && state.secondNum !== "" && state.operator !== "") { // if we have both numbers then do operator on second num
+            if(state.firstNum === "ERR") {
+                return;
+            }
+            
+            let response = await fetch("http://localhost:8080/calculate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstNum: state.firstNum,
+                    secondNum: state.secondNum,
+                    operator: state.operator
+                })
+            })
+
+            let data = await response.text();
+
+            dispatch({ type: reducerType.EQUALS, payload: data })
+        }
+    }
+
     return (
         <div className="calculator-body">
             <div className="display-container">
@@ -73,7 +118,7 @@ const Calculator = ():JSX.Element => {
             <CalculatorKeys buttonId="nine" bgColor={bgColorNumbers} additionalClass="nine" click={() => dispatch({ type: reducerType.DIGIT, payload: "9" })} >9</CalculatorKeys>
             <CalculatorKeys buttonId="zero" bgColor={bgColorNumbers} additionalClass="zero" click={() => dispatch({ type: reducerType.DIGIT, payload: "0" })} >0</CalculatorKeys>
             <CalculatorKeys buttonId="decimal" bgColor={bgColorNumbers} additionalClass="decimal" click={() => dispatch({ type: reducerType.DOT, payload: "." })} >.</CalculatorKeys>
-            <CalculatorKeys buttonId="equals" bgColor={bgColorNumbers} additionalClass="equals">=</CalculatorKeys>
+            <CalculatorKeys buttonId="equals" bgColor={bgColorNumbers} additionalClass="equals" click={handleEquals}>=</CalculatorKeys>
 
             <CalculatorKeys buttonId="plus" bgColor={bgColorOperations} additionalClass="plus" click={() => dispatch({ type: reducerType.ADD })} >+</CalculatorKeys>
             <CalculatorKeys buttonId="subtract" bgColor={bgColorOperations} additionalClass="subtract" click={() => dispatch({ type: reducerType.SUBTRACT })} >-</CalculatorKeys>
