@@ -1,0 +1,58 @@
+#root {
+  width: 100%;
+  background-color: black;
+  box-sizing: border-box;
+}
+
+.box {
+  width: 100%;
+  display: flex;
+  color: white;
+  justify-content: space-evenly;
+}
+
+.bulb {
+  margin: 0 auto;
+}
+
+.base {
+  width: 40px;
+  height: 60px;
+  background-color: white;
+}
+
+.light {
+  height: 60px;
+  width: 60px;
+  position: relative;
+  left: -10px;
+  top: -5px;
+  border-radius: 50%;
+}
+
+.control-box {
+  text-align: center;
+  color: white;
+}
+
+.christmas-text {
+  font-size: 5rem;
+  text-shadow: 0 0 5px white;
+  animation: glowing-effect ease-in-out infinite 5s;
+}
+
+.light {
+  transition: all 0.5s ease-in;
+}
+
+@keyframes glowing-effect {
+  0% {
+    text-shadow: 0 0 5px white;
+  }
+  50% {
+    text-shadow: 0 0 30px white;
+  }
+  100% {
+    text-shadow: 0 0 5px white;
+  }
+}
